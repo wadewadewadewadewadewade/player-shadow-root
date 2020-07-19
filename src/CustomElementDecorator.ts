@@ -1,6 +1,6 @@
 interface CustomElementConfig {
     selector:string;
-    template?: string;
+    template: string;
     style?: string;
     useShadow?: boolean;
 }
@@ -28,12 +28,12 @@ export const CustomElement = (config: CustomElementConfig) => (cls: any) => {
     const disconnectedCallback = cls.prototype.disconnectedCallback || noop;
 
     cls.prototype.connectedCallback = function() {
-        const clone = document.importNode(template.content, true);
+        /*const clone = document.importNode(template.content, true);
         if (config.useShadow) {
             this.attachShadow({mode: 'open'}).appendChild(clone);
         } else {
             this.appendChild(clone);
-        }
+        }*/
 
         if (this.componentWillMount) {
             this.componentWillMount();

@@ -1,15 +1,16 @@
-import typescript from '@rollup/plugin-typescript';
-import buble from '@rollup/plugin-buble';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-//import uglify from 'rollup-plugin-uglify';
-import {minify} from 'uglify-js';
+import multi from '@rollup/plugin-multi-entry'
+import scss from 'rollup-plugin-scss'
+//import typescript from '@rollup/plugin-typescript';
+//import buble from '@rollup/plugin-buble';
+//import resolve from '@rollup/plugin-node-resolve';
+//import commonjs from '@rollup/plugin-commonjs';
+//import {minify} from 'uglify-js';
 
 /**
  * Default/development Build
  */
 const config = {
-    input: 'src/player-shadow-root.ts',
+    input: ['lib/declarations.d.js','lib/CustomElementDecorator.js','lib/player-shadow-root.js'],
     output: {
       file: 'dist/player-shadow-root.js',
       format: 'umd',
@@ -17,10 +18,12 @@ const config = {
       sourcemap: true
     },
     plugins: [
-        typescript(),
-        buble(),
-        resolve(),
-        commonjs()
+      multi(),
+      scss({output: false})
+      //typescript(),
+      //buble(),
+      //resolve(),
+      //commonjs()
     ]
 }
 
@@ -32,7 +35,7 @@ if (process.env.BUILD === 'minify') {
       name: 'Player',
       sourcemap: false
     };
-    config.plugins.push(minify)
+    //config.plugins.push(minify)
 }
 
 export default config
