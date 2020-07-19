@@ -65,7 +65,6 @@
   },
   "files": [
     "src/CustomElementDecorator.ts",
-    "src/declarations.d.ts",
     "src/player-shadow-root.ts"
   ]
 }

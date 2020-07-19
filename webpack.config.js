@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  entry: "./src/player-shadow-root.ts",
   module: {
     rules: [
       {
@@ -24,7 +25,7 @@ module.exports = {
     extensions: [ '.tsx', '.ts', '.js', '.css', '.scss' ],
   },
   output: {
-    filename: 'bundle.js',
+    filename: 'player-shadow-root.js',
     path: path.resolve(__dirname, 'dist'),
   },
 };
