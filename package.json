@@ -32,6 +32,7 @@
         "style-loader": "^1.2.1",
         "ts-loader": "^8.0.1",
         "ts-node": "^8.10.2",
+        "tslib": "^2.0.0",
         "typescript": "^3.9.7",
         "uglify-js": "^3.10.0",
         "webpack": "^4.43.0",

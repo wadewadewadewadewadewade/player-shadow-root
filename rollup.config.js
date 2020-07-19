@@ -35,7 +35,4 @@ if (process.env.BUILD === 'minify') {
     config.plugins.push(minify)
 }
 
-// Report destination paths on console
-console.info(`\u001b[36m\[Rollup ${process.env.BUILD} build\]\u001b[97m \nConverting Typescript from ${config.entry} to javascript, exporting to: ${config.targets[0].dest}`);
-
 export default config
