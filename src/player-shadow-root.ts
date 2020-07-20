@@ -52,16 +52,18 @@ import { CustomElement } from './CustomElementDecorator';
       justify-content:center;
       align-items:center;
       overflow:visible;
-      width:44%;
-      height:44%;
+      width:0;
+      height:0;
+      left:50%;
+      top:50%;
+      margin:-1.6rem 0 0 -1.2rem;
+      transform:scale(70%);
     }
-    .player-container.icon-pause .icon-pause {
-      display:flex;
-      margin:1rem -0.125rem 0 0.125rem;
+    .player-container .icon-pause {
+      margin:-1.6rem 0 0 -1.8rem;
     }
-    .player-container.icon-play .icon-play {
+    .player-container.icon-pause .icon-pause, .player-container.icon-play .icon-play {
       display:flex;
-      margin:1rem -1rem 0 1rem;
     }
     .loading {
       opacity: 0
@@ -71,7 +73,6 @@ import { CustomElement } from './CustomElementDecorator';
       position:absolute;
       overflow:visible;
       z-index:2;
-      left:0;right:0;top:0;bottom:0;
     }
     .progress-ring.white {
       z-index:3;
@@ -97,6 +98,8 @@ class Player extends HTMLElement {
   private height: number = 120
   private progressIndicator: SVGCircleElement | null = null
   private wrapper: HTMLElement | null = null
+  private radius = 0
+  private circumference = 0
   constructor() {
     super();
   }
@@ -124,15 +127,15 @@ class Player extends HTMLElement {
       }
       this.width = settings.width
       this.height = settings.height
+      this.radius = (this.width < this.height ? this.width : this.height) / 2
+      this.circumference = this.radius * 2 * Math.PI
       // create DOM
       if (this.shadowRoot) {
         this.wrapper = this.shadowRoot.querySelector('.player-container')
         if (this.wrapper) {
           this.wrapper.setAttribute('style',`width:${settings.width}px;height:${settings.height}px`)
           this.progressIndicator = this.shadowRoot.querySelector('circle') as SVGCircleElement
-          const radius = (this.width < this.height ? this.width : this.height) / 2
-          const circumference = radius * 2 * Math.PI
-          this.progressIndicator.style.strokeDasharray = `${circumference} ${circumference}`
+          this.progressIndicator.style.strokeDasharray = `${this.circumference} ${this.circumference}`
           // size the progress indicator circles
           this.shadowRoot.querySelectorAll('.progress-ring').forEach((svg) => this.sizeCircle(svg))
           // set up the player
@@ -182,19 +185,16 @@ class Player extends HTMLElement {
     this.initialized = false
   }
   private sizeCircle = (svg: Element) => {
-    const radius = (this.width < this.height ? this.width : this.height) / 2
-    svg.setAttribute('width', (radius * 2).toString())
-    svg.setAttribute('height', (radius * 2).toString())
+    svg.setAttribute('width', (this.radius * 2).toString())
+    svg.setAttribute('height', (this.radius * 2).toString())
     const circle: SVGCircleElement = svg.querySelector('circle') as SVGCircleElement
-    circle.setAttribute('r', radius.toString())
-    circle.setAttribute('cx', radius.toString())
-    circle.setAttribute('cy', radius.toString())
+    circle.setAttribute('r', this.radius.toString())
+    circle.setAttribute('cx', this.radius.toString())
+    circle.setAttribute('cy', this.radius.toString())
   }
   private setProgress = (percent: number) => {
     if (this.progressIndicator) {
-      const radius = (this.width < this.height ? this.width : this.height) / 2
-      const circumference = radius * 2 * Math.PI
-      const offset = circumference - percent / 100 * circumference
+      const offset = this.circumference - percent / 100 * this.circumference
       this.progressIndicator.style.strokeDashoffset = `${offset}`
     }
   }
