@@ -130,7 +130,7 @@ class Player extends HTMLElement {
         if (this.wrapper) {
           this.wrapper.setAttribute('style',`width:${settings.width}px;height:${settings.height}px`)
           this.progressIndicator = this.shadowRoot.querySelector('circle') as SVGCircleElement
-          const radius = (this.width < this.height ? this.height : this.width) / 2
+          const radius = (this.width < this.height ? this.width : this.height) / 2
           const circumference = radius * 2 * Math.PI
           this.progressIndicator.style.strokeDasharray = `${circumference} ${circumference}`
           // size the progress indicator circles
@@ -192,7 +192,7 @@ class Player extends HTMLElement {
   }
   private setProgress = (percent: number) => {
     if (this.progressIndicator) {
-      const radius = (this.width < this.height ? this.height : this.width) / 2
+      const radius = (this.width < this.height ? this.width : this.height) / 2
       const circumference = radius * 2 * Math.PI
       const offset = circumference - percent / 100 * circumference
       this.progressIndicator.style.strokeDashoffset = `${offset}`
